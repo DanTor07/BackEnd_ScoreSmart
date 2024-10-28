@@ -1,0 +1,194 @@
+{
+    "bancos": [
+      {
+        "nombre": "Bancolombia",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.2,
+            "tasa_interes_efectiva_anual": 15.4,
+            "plazo_minimo_meses": 12,
+            "plazo_maximo_meses": 60,
+            "valor_seguro": 2000
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.1,
+            "tasa_interes_efectiva_anual": 13.8,
+            "plazo_minimo_meses": 60,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 5000
+          }
+        ]
+      },
+      {
+        "nombre": "Banco de Bogotá",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.3,
+            "tasa_interes_efectiva_anual": 16.2,
+            "plazo_minimo_meses": 12,
+            "plazo_maximo_meses": 48,
+            "valor_seguro": 2500
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.15,
+            "tasa_interes_efectiva_anual": 14.5,
+            "plazo_minimo_meses": 60,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 4500
+          }
+        ]
+      },
+      {
+        "nombre": "Davivienda",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.4,
+            "tasa_interes_efectiva_anual": 17.0,
+            "plazo_minimo_meses": 6,
+            "plazo_maximo_meses": 36,
+            "valor_seguro": 1800
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.2,
+            "tasa_interes_efectiva_anual": 15.1,
+            "plazo_minimo_meses": 120,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 6000
+          }
+        ]
+      },
+      {
+        "nombre": "Colpatria",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.25,
+            "tasa_interes_efectiva_anual": 15.8,
+            "plazo_minimo_meses": 12,
+            "plazo_maximo_meses": 48,
+            "valor_seguro": 2300
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.1,
+            "tasa_interes_efectiva_anual": 13.9,
+            "plazo_minimo_meses": 120,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 5200
+          }
+        ]
+      },
+      {
+        "nombre": "BBVA",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.35,
+            "tasa_interes_efectiva_anual": 16.5,
+            "plazo_minimo_meses": 6,
+            "plazo_maximo_meses": 48,
+            "valor_seguro": 2200
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.18,
+            "tasa_interes_efectiva_anual": 14.8,
+            "plazo_minimo_meses": 60,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 4800
+          }
+        ]
+      },
+      {
+        "nombre": "Banco de Occidente",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.4,
+            "tasa_interes_efectiva_anual": 17.1,
+            "plazo_minimo_meses": 12,
+            "plazo_maximo_meses": 36,
+            "valor_seguro": 1900
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.2,
+            "tasa_interes_efectiva_anual": 15.3,
+            "plazo_minimo_meses": 120,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 5500
+          }
+        ]
+      },
+      {
+        "nombre": "Banco Popular",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.28,
+            "tasa_interes_efectiva_anual": 16.0,
+            "plazo_minimo_meses": 6,
+            "plazo_maximo_meses": 48,
+            "valor_seguro": 2100
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.1,
+            "tasa_interes_efectiva_anual": 14.2,
+            "plazo_minimo_meses": 60,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 4700
+          }
+        ]
+      },
+      {
+        "nombre": "Banco Caja Social",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.3,
+            "tasa_interes_efectiva_anual": 16.3,
+            "plazo_minimo_meses": 6,
+            "plazo_maximo_meses": 36,
+            "valor_seguro": 2000
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.15,
+            "tasa_interes_efectiva_anual": 14.7,
+            "plazo_minimo_meses": 60,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 5100
+          }
+        ]
+      },
+      {
+        "nombre": "Banco Av Villas",
+        "productos_credito": [
+          {
+            "tipo_credito": "Consumo",
+            "tasa_interes_nominal": 1.33,
+            "tasa_interes_efectiva_anual": 16.8,
+            "plazo_minimo_meses": 12,
+            "plazo_maximo_meses": 48,
+            "valor_seguro": 2200
+          },
+          {
+            "tipo_credito": "Vivienda",
+            "tasa_interes_nominal": 1.12,
+            "tasa_interes_efectiva_anual": 14.0,
+            "plazo_minimo_meses": 60,
+            "plazo_maximo_meses": 240,
+            "valor_seguro": 5300
+          }
+        ]
+      }
+    ]
+  }
+  
