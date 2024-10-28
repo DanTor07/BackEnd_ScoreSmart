@@ -62,10 +62,31 @@ exports.updateSimulacion = (req, res) => {
     const simulacionIndex = creditosSimulados.findIndex(sim => sim.id === parseInt(req.params.id));
     if (simulacionIndex === -1) return res.status(404).json({ message: 'Simulación no encontrada' });
 
-    const updatedSimulacion = { ...creditosSimulados[simulacionIndex], ...req.body };
+    // Actualizar los campos necesarios de la simulación
+    const { nombres, apellidos, correo, telefono, cedula, edad, estadoCivil, direccion, tipoCredito, montoSolicitado, plazoMeses } = req.body;
+
+    const updatedSimulacion = {
+        ...creditosSimulados[simulacionIndex],
+        usuario: {
+            nombres: nombres || creditosSimulados[simulacionIndex].usuario.nombres,
+            apellidos: apellidos || creditosSimulados[simulacionIndex].usuario.apellidos,
+            correo: correo || creditosSimulados[simulacionIndex].usuario.correo,
+            telefono: telefono || creditosSimulados[simulacionIndex].usuario.telefono,
+            cedula: cedula || creditosSimulados[simulacionIndex].usuario.cedula,
+            edad: edad || creditosSimulados[simulacionIndex].usuario.edad,
+            estadoCivil: estadoCivil || creditosSimulados[simulacionIndex].usuario.estadoCivil,
+            direccion: direccion || creditosSimulados[simulacionIndex].usuario.direccion,
+        },
+        opcionesCredito: creditosSimulados[simulacionIndex].opcionesCredito, // Mantener opciones de crédito existentes
+        tipoCredito: tipoCredito || creditosSimulados[simulacionIndex].tipoCredito,
+        montoSolicitado: montoSolicitado || creditosSimulados[simulacionIndex].montoSolicitado,
+        plazoMeses: plazoMeses || creditosSimulados[simulacionIndex].plazoMeses
+    };
+
     creditosSimulados[simulacionIndex] = updatedSimulacion;
     res.status(200).json(updatedSimulacion);
 };
+
 
 // Función para eliminar una simulación por ID
 exports.deleteSimulacion = (req, res) => {
