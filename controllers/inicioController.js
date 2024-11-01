@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 // POST: Iniciar sesión
-exports.login = async (req, res) => {
+exports.inicio = async (req, res) => {
     const { correo, contrasena } = req.body;
 
     try {
@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
         }
 
         // Generar un token de autenticación
-        const token = jwt.sign({ id: usuario._id }, 'tu_secreto', { expiresIn: '1h' });
+        const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ message: 'Inicio de sesión exitoso', token });
     } catch (error) {
         res.status(500).json({ message: error.message });

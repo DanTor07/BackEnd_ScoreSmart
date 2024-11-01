@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const inicioControllerController = require('../controllers/inicioController');
-
+const inicioController = require('../controllers/inicioController'); // Asegúrate de que este nombre coincide
 
 router.post('/', inicioController.inicio);
 
