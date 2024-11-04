@@ -1,4 +1,4 @@
-const Registro = require('../models/registro');
+const Registro = require('../models/usuario');
 
 // GET: Obtener todos los registros
 exports.getRegistros = async (req, res) => {
