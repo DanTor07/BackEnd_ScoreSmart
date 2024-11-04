@@ -1,5 +1,4 @@
 const Registro = require('../models/registro');
-const bcrypt = require('bcrypt');
 
 // GET: Obtener todos los registros
 exports.getRegistros = async (req, res) => {
@@ -11,18 +10,10 @@ exports.getRegistros = async (req, res) => {
     }
 };
 
-// POST: Crear un nuevo registro con encriptación de contraseña
+// POST: Crear un nuevo registro
 exports.createRegistro = async (req, res) => {
+    const registro = new Registro(req.body);
     try {
-        // Encriptar la contraseña
-        const hashedPassword = await bcrypt.hash(req.body.contrasena, 10);
-
-        // Crear el nuevo registro con la contraseña encriptada
-        const registro = new Registro({
-            ...req.body,
-            contrasena: hashedPassword
-        });
-
         const newRegistro = await registro.save();
         res.status(201).json(newRegistro);
     } catch (error) {
