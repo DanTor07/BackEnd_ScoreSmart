@@ -13,7 +13,7 @@ exports.simularCredito = async (req, res) => {
     if (!nombres || !apellidos || !correo || !telefono || !cedula || !edad || !estadoCivil || !direccion || !tipoCredito || !montoSolicitado || !plazoMeses) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
-
+    
     try {
         const opcionesCredito = bancosData.bancos.map(banco => {
             const opciones = banco.productos_credito.filter(credito => {
