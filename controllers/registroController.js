@@ -45,4 +45,18 @@ exports.deleteRegistro = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+
+    const bcrypt = require('bcrypt');
+
+    // Contraseña ingresada
+    const contrasenaIngresada = "123"; // Cambia esto a lo que estás ingresando
+    
+    // Hash almacenado desde la base de datos
+    const hashAlmacenado = "$2b$10$RRCgjLdn/osPmyMTcZIuH./XHkaqxRDkHdFaCukLXP2eI8QT8c.oy"; // Reemplaza esto con el hash real
+    
+    // Comparar
+    const isMatch = await bcrypt.compare(contrasenaIngresada, hashAlmacenado);
+    console.log('¿Contraseñas coinciden?', isMatch); // Esto debería ser true si todo está correcto
+    
+
 };
