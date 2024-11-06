@@ -24,8 +24,17 @@ exports.createRegistro = async (req, res) => {
 
 // PUT: Actualizar información de un registro existente
 exports.updateRegistro = async (req, res) => {
+    const { contrasena } = req.body;  // La nueva contraseña (si es provista) en los datos de la solicitud
+
     try {
+        // Si se envía una nueva contraseña, encriptarla antes de actualizar
+        if (contrasena) {
+            req.body.contrasena = await bcrypt.hash(contrasena, 10);
+        }
+
+        // Actualizar el registro en la base de datos
         const updatedRegistro = await Registro.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
         if (!updatedRegistro) {
             return res.status(404).json({ message: 'Registro no encontrado' });
         }
@@ -34,6 +43,7 @@ exports.updateRegistro = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 // DELETE: Eliminar un registro
 exports.deleteRegistro = async (req, res) => {
@@ -48,42 +58,4 @@ exports.deleteRegistro = async (req, res) => {
     }   
 
 
-};
-
-
-// registroController.js
-exports.cambiarContrasena = async (req, res) => {
-    const { id } = req.params;  // El ID del usuario se pasa en la URL
-    const { contrasenaActual, contrasenaNueva } = req.body;  // Contraseña actual y nueva
-
-    try {
-        // Buscar el registro por el ID
-        const usuario = await Registro.findById(id);
-        if (!usuario) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
-        }
-
-        // Verificar si la contraseña actual coincide con la almacenada
-        const isMatch = await bcrypt.compare(contrasenaActual, usuario.contrasena);
-        if (!isMatch) {
-            return res.status(401).json({ message: 'Contraseña actual incorrecta' });
-        }
-
-        // Validar la nueva contraseña (opcional)
-        if (contrasenaNueva.length < 6) {
-            return res.status(400).json({ message: 'La nueva contraseña debe tener al menos 6 caracteres' });
-        }
-
-        // Encriptar la nueva contraseña
-        const contrasenaEncriptada = await bcrypt.hash(contrasenaNueva, 10);
-
-        // Actualizar la contraseña
-        usuario.contrasena = contrasenaEncriptada;
-
-        // Guardar los cambios en la base de datos
-        await usuario.save();
-        res.status(200).json({ message: 'Contraseña actualizada con éxito' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
 };

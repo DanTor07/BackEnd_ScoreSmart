@@ -23,6 +23,6 @@ app.use('/api/inicio', inicioRoutes)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
-    console.log('JWT_SECRET:', process.env.JWT_SECRET);
+  //  console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 });

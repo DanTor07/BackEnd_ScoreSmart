@@ -1,67 +1,58 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const Simulacion = require('../models/creditSimulations');
 
-// Leer archivo bancos.json
-const bancosData = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/bancos.json'), 'utf8'));
+// Leer archivo bancos.json de manera asincrónica
+async function obtenerDatosBancos() {
+    const data = await fs.readFile(path.join(__dirname, '../data/bancos.json'), 'utf8');
+    return JSON.parse(data);
+}
 
-// Controlador para la simulación de crédito (creación)
 exports.simularCredito = async (req, res) => {
     const { nombres, apellidos, correo, telefono, cedula, edad, estadoCivil, direccion, tipoCredito, montoSolicitado, plazoMeses } = req.body;
 
-    // Validación de entrada
     if (!nombres || !apellidos || !correo || !telefono || !cedula || !edad || !estadoCivil || !direccion || !tipoCredito || !montoSolicitado || !plazoMeses) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
     
     try {
-        const opcionesCredito = bancosData.bancos.map(banco => {
-            const opciones = banco.productos_credito.filter(credito => {
-                return (
-                    credito.tipo_credito === tipoCredito &&
-                    plazoMeses >= credito.plazo_minimo_meses &&
-                    plazoMeses <= credito.plazo_maximo_meses
-                );
-            }).map(credito => {
-                const cuotaMensual = calcularCuotaMensual(montoSolicitado, credito.tasa_interes_nominal, plazoMeses);
-                const fechaCorte = calcularFechaCorte(new Date(), plazoMeses);  // Aquí se usa la fecha actual
+        const bancosData = await obtenerDatosBancos();
 
-                return {
-                    nombreBanco: banco.nombre,
-                    tipoCredito: credito.tipo_credito,
-                    tasaInteresNominal: credito.tasa_interes_nominal,
-                    tasaInteresEfectivaAnual: credito.tasa_interes_efectiva_anual,
-                    plazoMeses: plazoMeses,
-                    montoCuota: cuotaMensual,
-                    fechaCorte: fechaCorte,
-                    valorSeguro: credito.valor_seguro
-                };
-            });
+        const opcionesCredito = bancosData.bancos.flatMap(banco => banco.productos_credito.filter(credito => {
+            return (
+                credito.tipo_credito === tipoCredito &&
+                plazoMeses >= credito.plazo_minimo_meses &&
+                plazoMeses <= credito.plazo_maximo_meses
+            );
+        }).map(credito => {
+            const cuotaMensual = calcularCuotaMensual(montoSolicitado, credito.tasa_interes_nominal, plazoMeses);
+            const fechaCorte = calcularFechaCorte(new Date(), plazoMeses);
 
-            return opciones;
-        }).flat();
+            return {
+                nombreBanco: banco.nombre,
+                tipoCredito: credito.tipo_credito,
+                tasaInteresNominal: credito.tasa_interes_nominal,
+                tasaInteresEfectivaAnual: credito.tasa_interes_efectiva_anual,
+                plazoMeses,
+                montoCuota: cuotaMensual,
+                fechaCorte,
+                valorSeguro: credito.valor_seguro
+            };
+        }));
 
         const nuevaSimulacion = new Simulacion({
-            usuario: {
-                nombres,
-                apellidos,
-                correo,
-                telefono,
-                cedula,
-                edad,
-                estadoCivil,
-                direccion,
-            },
+            usuario: { nombres, apellidos, correo, telefono, cedula, edad, estadoCivil, direccion },
             opcionesCredito
         });
 
-        await nuevaSimulacion.save(); // Guardar en MongoDB
+        await nuevaSimulacion.save();
         res.status(201).json(nuevaSimulacion);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error al procesar la simulación." });
     }
 };
+
 
 // Función para obtener todas las simulaciones
 exports.getSimulaciones = async (req, res) => {
