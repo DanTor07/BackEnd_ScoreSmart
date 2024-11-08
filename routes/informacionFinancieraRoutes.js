@@ -5,6 +5,6 @@ const informacionFinancieraController = require('../controllers/informacionFinan
 router.get('/', informacionFinancieraController.getInformacionFinanciera);
 router.post('/', informacionFinancieraController.createInformacionFinanciera);
 router.put('/:id', informacionFinancieraController.updateInformacionFinanciera);
-//router.delete('/:id', informacionFinancieraController.deleteInformacionFinanciera)
+router.delete('/:id', informacionFinancieraController.deleteInformacionFinanciera)
 
 module.exports = router;

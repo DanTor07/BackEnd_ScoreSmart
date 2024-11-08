@@ -71,3 +71,12 @@ exports.updateInformacionFinanciera = async (req, res) => {
         .then((data) => res.status(200).json(data))
         .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
 }
+
+exports.deleteInformacionFinanciera = async (req, res) => {
+    const { id } = req.params
+
+    await finantialInformationSchema
+        .deleteOne({ _id: id })
+        .then(() => res.status(200).json({message: "Informacion financiera eliminada"}))
+        .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
+}
