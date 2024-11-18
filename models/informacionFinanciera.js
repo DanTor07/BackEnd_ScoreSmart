@@ -11,7 +11,7 @@ const informacionFinancieraSchema = mongoose.Schema({
     totalPasivos: { type: Number, required: true, },
     capacidadAhorro: { type: String, required: true, },
     seguroDeVida: { type: Boolean, required: true },
-    usuario: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Registro'}]
+    usuario: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Registro', required: true}]
 });
 
 module.exports = mongoose.model("informacionFinanciera", informacionFinancieraSchema);

@@ -4,7 +4,7 @@ const informacionFinancieraController = require('../controllers/informacionFinan
 
 router.get('/', informacionFinancieraController.getInformacionFinanciera);
 router.post('/', informacionFinancieraController.createInformacionFinanciera);
-router.put('/:id', informacionFinancieraController.updateInformacionFinanciera);
-router.delete('/:id', informacionFinancieraController.deleteInformacionFinanciera)
+router.put('/:id/:usuario', informacionFinancieraController.somethingUpdate);
+router.delete('/:id/:usuario', informacionFinancieraController.deleteInformacionFinanciera)
 
 module.exports = router;
