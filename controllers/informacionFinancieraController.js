@@ -1,4 +1,5 @@
 const informacionFinancieraSchema = require('../models/informacionFinanciera');
+const registroSchema = require('../models/registro')
 
 exports.getInformacionFinanciera = async (_, res) => {
     try {
@@ -20,10 +21,11 @@ exports.createInformacionFinanciera = async (req, res) => {
         totalActivos,
         totalPasivos,
         capacidadAhorro,
-        seguroDeVida
+        seguroDeVida,
+        usuario
     } = req.body;
 
-    if ( !ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida) {
+    if ( !ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida, !usuario) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
 
@@ -34,8 +36,8 @@ exports.createInformacionFinanciera = async (req, res) => {
         .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
 };
 
-exports.updateInformacionFinanciera = async (req, res) => {
-    const { id } = req.params;
+exports.somethingUpdate= async (req, res) => {
+    const { id, usuario } = req.params;
     const {
         ingresoNetoMensual,
         ingresosAdicionales,
@@ -46,10 +48,10 @@ exports.updateInformacionFinanciera = async (req, res) => {
         totalActivos,
         totalPasivos,
         capacidadAhorro,
-        seguroDeVida
+        seguroDeVida,
     } = req.body;
 
-    if ( !ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida) {
+    if ( !ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida, !usuario) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
 
@@ -70,12 +72,25 @@ exports.updateInformacionFinanciera = async (req, res) => {
         })
         .then((data) => res.status(200).json(data))
         .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
-}
+};
 
 exports.deleteInformacionFinanciera = async (req, res) => {
-    const { id } = req.params
+    const { id, usuario } = req.params
+    if ( !id, !usuario) {
+        return res.status(400).json({ error: "Todos los campos son obligatorios." });
+    }
 
-    await finantialInformationSchema
+    const user = await registroSchema.findById(usuario);
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const informacionFinanciera = await informacionFinancieraSchema.findOne({ _id: id, usuario: usuario});
+    if (!informacionFinanciera) {
+        return res.status(403).json({ message: 'la informacion financiera no pertenece al usuario' });
+    }
+
+    await informacionFinancieraSchema
         .deleteOne({ _id: id })
         .then(() => res.status(200).json({message: "Informacion financiera eliminada"}))
         .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
