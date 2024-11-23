@@ -11,6 +11,16 @@ exports.getRegistros = async (req, res) => {
     }
 };
 
+// GET: Obtener un solo registro
+exports.getOneRegistro = async (req, res) => {
+    const { id } = req.params
+    try {
+        const registro = await Registro.findById(id);
+        res.status(200).json(registro);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 // POST: Crear un nuevo registro
 exports.createRegistro = async (req, res) => {
     const registro = new Registro(req.body);
@@ -55,7 +65,5 @@ exports.deleteRegistro = async (req, res) => {
         res.status(200).json({ message: 'Registro eliminado' });
     } catch (error) {
         res.status(500).json({ message: error.message });
-    }   
-
-
+    }
 };
