@@ -6,6 +6,7 @@ router.get('/', registroController.getRegistros);
 router.post('/', registroController.createRegistro);
 router.put('/:id', registroController.updateRegistro);
 router.delete('/:id', registroController.deleteRegistro);
+router.get('/:id', registroController.getRegistroById);
 
 
 module.exports = router;
