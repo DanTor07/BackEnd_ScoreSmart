@@ -8,7 +8,7 @@ const {
     subMonths
 } = require('date-fns');
 
-const registroSchema = require('../models/registro')
+const registroSchema = require('../models/registration')
 
 exports.getScore= async (_, res) => {
     const today = startOfToday();

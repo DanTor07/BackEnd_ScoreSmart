@@ -3,11 +3,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const creditoRoutes = require('./routes/creditoRoutes');
-const registroRoutes = require('./routes/registroRoutes');
-const inicioRoutes = require('./routes/inicioRoutes');
-const informacionFinancieraRoutes = require('./routes/informacionFinancieraRoutes');
-const tasasYPuntajeRoutes = require('./routes/scoreAndRatesRoutes');
+const creditRoutes = require('./routes/creditRoutes');
+const registrationRoutes = require('./routes/registrationRoutes');
+const loginRoutes = require('./routes/loginRoutes');
+const financialInfoRoutes = require('./routes/financialInfoRoutes');
+const scoreAndRatesRoutes = require('./routes/scoreAndRatesRoutes');
 
 const app = express();
 
@@ -18,11 +18,11 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado a MongoDB'))
   .catch(error => console.log('Error de conexión:', error));
 
-app.use('/api/creditos', creditoRoutes);
-app.use('/api/registros', registroRoutes);
-app.use('/api/inicio', inicioRoutes);
-app.use('/api/informacion-financiera', informacionFinancieraRoutes);
-app.use('/api/tasas-y-puntaje', tasasYPuntajeRoutes);
+app.use('/api/creditos', creditRoutes);
+app.use('/api/registros', registrationRoutes);
+app.use('/api/inicio', loginRoutes);
+app.use('/api/informacion-financiera', financialInfoRoutes);
+app.use('/api/tasas-y-puntaje', scoreAndRatesRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

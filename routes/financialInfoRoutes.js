@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const informacionFinancieraController = require('../controllers/informacionFinancieraController');
+const informacionFinancieraController = require('../controllers/financialInfoController');
 
 router.get('/', informacionFinancieraController.getInformacionFinanciera);
 router.post('/', informacionFinancieraController.createInformacionFinanciera);

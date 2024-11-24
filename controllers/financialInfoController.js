@@ -1,5 +1,5 @@
-const informacionFinancieraSchema = require('../models/informacionFinanciera');
-const registroSchema = require('../models/registro')
+const informacionFinancieraSchema = require('../models/financialInfo');
+const registroSchema = require('../models/registration')
 
 exports.getInformacionFinanciera = async (_, res) => {
     try {

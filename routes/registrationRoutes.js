@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const registroController = require('../controllers/regUsers');
+const registroController = require('../controllers/registrationController');
 
 router.get('/', registroController.getRegistros);
 router.get('/:id', registroController.getOneRegistro);

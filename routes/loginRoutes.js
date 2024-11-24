@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const inicioController = require('../controllers/inicioController'); 
+const inicioController = require('../controllers/loginController'); 
 
 router.post('/', inicioController.inicio);
 router.get('/logs/:usuarioId', inicioController.getLoginLogs);
