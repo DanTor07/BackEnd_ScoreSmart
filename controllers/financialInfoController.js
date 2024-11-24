@@ -79,7 +79,6 @@ exports.deleteInformacionFinanciera = async (req, res) => {
     if ( !id, !usuario) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
-<<<<<<< HEAD
 
     const user = await registroSchema.findById(usuario);
     if (!user) {
@@ -95,7 +94,7 @@ exports.deleteInformacionFinanciera = async (req, res) => {
         .deleteOne({ _id: id })
         .then(() => res.status(200).json({message: "Informacion financiera eliminada"}))
         .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
+
+
+        
 }
-=======
-};
->>>>>>> intfrontend
