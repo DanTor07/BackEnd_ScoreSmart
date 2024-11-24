@@ -1,4 +1,4 @@
-const Registro = require('../models/registro');
+const Registro = require('../models/registration');
 const bcrypt = require('bcrypt');
 
 // GET: Obtener todos los registros

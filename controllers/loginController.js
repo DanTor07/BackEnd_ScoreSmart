@@ -1,4 +1,4 @@
-const Registro = require('../models/registro');
+const Registro = require('../models/registration');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const LoginLog = require('../models/loginlogs');

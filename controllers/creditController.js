@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const Simulacion = require('../models/creditSimulations');
-const Usuario = require('../models/registro'); // Importa el modelo de usuarios
+const Usuario = require('../models/registration'); // Importa el modelo de usuarios
 
 // Leer archivo bancos.json de manera asincrónica
 async function obtenerDatosBancos() {
@@ -94,12 +94,17 @@ function calcularFechaCorte(fechaInicio, plazoMeses) {
 // Función para obtener todas las simulaciones
 exports.getSimulaciones = async (req, res) => {
     try {
-        const simulaciones = await Simulacion.find(); // Obtener todas las simulaciones de MongoDB
-        res.status(200).json(simulaciones);
+      const { usuarioId } = req.query;
+  
+      const simulaciones = await Simulacion.find({
+        'usuario._id': usuarioId,
+      });
+      res.status(200).json(simulaciones);
     } catch (error) {
-        res.status(500).json({ error: "Error al obtener las simulaciones." });
+      res.status(500).json({ error: 'Error al obtener las simulaciones.' });
     }
-};
+  };
+  
 
 // Función para obtener una simulación por ID
 exports.getSimulacionById = async (req, res) => {
