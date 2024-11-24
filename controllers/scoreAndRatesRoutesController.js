@@ -1,26 +1,38 @@
-const mongoose = require('mongoose');
+const { faker } = require('@faker-js/faker');
+const {
+    eachDayOfInterval,
+    subDays,
+    startOfToday,
+    eachMonthOfInterval,
+    startOfMonth,
+    subMonths
+} = require('date-fns');
 
-const SimulacionSchema = new mongoose.Schema({
-    usuario: {
-        nombres: { type: String, required: true },
-        apellidos: { type: String, required: true },
-        correo: { type: String, required: true },
-        telefono: { type: String, required: true },
-        cedula: { type: String, required: true },
-        edad: { type: Number, required: true },
-        estadoCivil: { type: String, required: true },
-        direccion: { type: String, required: true },
-    },
-    opcionesCredito: [{
-        nombreBanco: { type: String, required: true },
-        tipoCredito: { type: String, required: true },
-        tasaInteresNominal: { type: Number, required: true },
-        tasaInteresEfectivaAnual: { type: Number, required: true },
-        plazoMeses: { type: Number, required: true },
-        montoCuota: { type: Number, required: true },
-        fechaCorte: { type: Date, required: true },
-        valorSeguro: { type: Number, required: true },
-    }]
-});
+const registroSchema = require('../models/registration')
 
-module.exports = mongoose.model('simscreditos', SimulacionSchema);
+exports.getScore= async (_, res) => {
+    const today = startOfToday();
+    const thirtyDaysAgo = subDays(today, 30);
+    const intervalDates = eachDayOfInterval({start: thirtyDaysAgo, end: today})
+
+    const data = intervalDates.map((date) => {
+        const num = faker.number.int({min: 0, max: 5000, multipleOf: 100})
+        return {date, num}
+    });
+
+    res.status(200).json(data)
+};
+
+exports.getRates = async (_, res) => {
+    const currentMonth = startOfMonth(new Date());
+    const sixMonthsAgo = subMonths(currentMonth, 6);
+    const intervalMonths = eachMonthOfInterval({start: sixMonthsAgo, end: currentMonth})
+
+    const data = intervalMonths.map((date) => {
+        const num = faker.number.int({min: 0, max: 15000, multipleOf: 2500})
+
+        return {date, num}
+    })
+
+    res.status(200).json(data)
+};

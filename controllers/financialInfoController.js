@@ -6,9 +6,30 @@ exports.getInformacionFinanciera = async (_, res) => {
         const informacionFinanciera = await informacionFinancieraSchema.find();
         res.status(200).json(informacionFinanciera)
     } catch (error) {
-        res.status(422).json({ error: "Error al obtener la informacion financiera del usuario"})
+        res.status(422).json({ error: "Error al obtener la informacion financiera del usuario" })
     }
 };
+
+exports.getInformacionFinancieraPorUsuario = async (req, res) => {
+    const { id } = req.params;  // Obtenemos el id del registro desde los parámetros de la URL
+
+    try {
+        // Buscar el registro por su id
+        const informacionFinanciera = await informacionFinancieraSchema.findById(id);
+
+        if (!informacionFinanciera) {
+            return res.status(404).json({ message: "Registro no encontrado." });
+        }
+
+        // Si el registro existe, lo retornamos con éxito
+        res.status(200).json(informacionFinanciera);
+    } catch (error) {
+        // Si ocurre algún error, retornamos el error
+        res.status(422).json({ message: "Error al obtener el registro.", error });
+    }
+};
+
+
 
 exports.createInformacionFinanciera = async (req, res) => {
     const {
@@ -25,7 +46,7 @@ exports.createInformacionFinanciera = async (req, res) => {
         usuario
     } = req.body;
 
-    if ( !ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida, !usuario) {
+    if (!ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida, !usuario) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
 
@@ -36,8 +57,8 @@ exports.createInformacionFinanciera = async (req, res) => {
         .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
 };
 
-exports.somethingUpdate= async (req, res) => {
-    const { id, usuario } = req.params;
+exports.updateInformacionFinanciera = async (req, res) => {
+    const { id } = req.params; // Solo se obtiene el id del registro
     const {
         ingresoNetoMensual,
         ingresosAdicionales,
@@ -48,53 +69,61 @@ exports.somethingUpdate= async (req, res) => {
         totalActivos,
         totalPasivos,
         capacidadAhorro,
-        seguroDeVida,
     } = req.body;
 
-    if ( !ingresoNetoMensual, !ingresosAdicionales, !tipoContratoTrabajo, !gastosFijosMensuales, !otrosGastos, !estadoLaboral, !totalActivos, !totalPasivos, !capacidadAhorro, !seguroDeVida, !usuario) {
+    // Validación de campos obligatorios
+    if (
+        !ingresoNetoMensual || !ingresosAdicionales || !tipoContratoTrabajo ||
+        !gastosFijosMensuales || !otrosGastos || !estadoLaboral ||
+        !totalActivos || !totalPasivos || !capacidadAhorro
+    ) {
         return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
 
-    await informacionFinancieraSchema
-        .updateOne( {_id: id}, {
-            $set: {
-                ingresoNetoMensual,
-                ingresosAdicionales,
-                tipoContratoTrabajo,
-                gastosFijosMensuales,
-                otrosGastos,
-                estadoLaboral,
-                totalActivos,
-                totalPasivos,
-                capacidadAhorro,
-                seguroDeVida
+    try {
+        // Actualización del registro por su id
+        const result = await informacionFinancieraSchema.updateOne(
+            { _id: id },
+            {
+                $set: {
+                    ingresoNetoMensual,
+                    ingresosAdicionales,
+                    tipoContratoTrabajo,
+                    gastosFijosMensuales,
+                    otrosGastos,
+                    estadoLaboral,
+                    totalActivos,
+                    totalPasivos,
+                    capacidadAhorro
+                },
             }
-        })
-        .then((data) => res.status(200).json(data))
-        .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: "Registro no encontrado." });
+        }
+
+        res.status(200).json({ message: "Información financiera actualizada.", result });
+    } catch (error) {
+        res.status(422).json({ message: "Error en el procesamiento de datos.", error });
+    }
 };
 
 exports.deleteInformacionFinanciera = async (req, res) => {
-    const { id, usuario } = req.params
-    if ( !id, !usuario) {
-        return res.status(400).json({ error: "Todos los campos son obligatorios." });
+    const { id } = req.params; // Solo se obtiene el id del registro
+
+    try {
+        // Verificar si el registro existe
+        const informacionFinanciera = await informacionFinancieraSchema.findById(id);
+
+        if (!informacionFinanciera) {
+            return res.status(404).json({ message: "Registro no encontrado." });
+        }
+
+        // Eliminar el registro
+        await informacionFinancieraSchema.deleteOne({ _id: id });
+        res.status(200).json({ message: "Información financiera eliminada." });
+    } catch (error) {
+        res.status(422).json({ message: "Error en el procesamiento de datos.", error });
     }
-
-    const user = await registroSchema.findById(usuario);
-    if (!user) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-
-    const informacionFinanciera = await informacionFinancieraSchema.findOne({ _id: id, usuario: usuario});
-    if (!informacionFinanciera) {
-        return res.status(403).json({ message: 'la informacion financiera no pertenece al usuario' });
-    }
-
-    await informacionFinancieraSchema
-        .deleteOne({ _id: id })
-        .then(() => res.status(200).json({message: "Informacion financiera eliminada"}))
-        .catch((error) => res.status(422).json({ message: "Error en el procesamiento de datos", error: error }));
-
-
-        
-}
+};
