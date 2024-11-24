@@ -11,7 +11,6 @@ exports.getRegistros = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
 // GET: Obtener un registro por ID
 exports.getRegistroById = async (req, res) => {
     try {
@@ -19,24 +18,12 @@ exports.getRegistroById = async (req, res) => {
         if (!registro) {
             return res.status(404).json({ message: 'Registro no encontrado' });
         }
-=======
-// GET: Obtener un solo registro
-exports.getOneRegistro = async (req, res) => {
-    const { id } = req.params
-    try {
-        const registro = await Registro.findById(id);
->>>>>>> fa9f944e520ab0f2ac05b68c1259de4b17557cf7
         res.status(200).json(registro);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-<<<<<<< HEAD
 };
 
-
-=======
-}
->>>>>>> fa9f944e520ab0f2ac05b68c1259de4b17557cf7
 // POST: Crear un nuevo registro
 exports.createRegistro = async (req, res) => {
     const registro = new Registro(req.body);
